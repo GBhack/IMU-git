@@ -117,9 +117,11 @@ def receiveABlock(serialSocket):
 def downloadOverSerial():
     communicationError = False
     serialSocket = chooseSerialPort()
-    receiveAByte(serialSocket,2)
+    print 'Connected'
     # Ask for the number of blocks stored on EEPROM :
     serialSocket.write(chr(125))
+    print 'Asking for #bytes'
+    time.sleep(2)
     #Wait for a response :
     waiting = True
     requestTime = time.time()
@@ -128,7 +130,7 @@ def downloadOverSerial():
             numberOfBlocks=ord(serialSocket.read(1))*256 + ord(serialSocket.read(1))
             print ('There are {} datapoints stored on the device ({} bytes) !'.format(numberOfBlocks, numberOfBlocks*26))
             waiting = False
-        if time.time()- requestTime > 2:
+        elif time.time()- requestTime > 2:
             print 'Connection timout : is the device still plugged ?'
             waiting = False
             communicationError = True
