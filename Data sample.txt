@@ -2,7 +2,7 @@ Orientation Sensor Raw Data Test
 
 Calibration status values: 0=uncalibrated, 3=fully calibrated
 X: 0.00 Y: 0.00 Z: 0.00		qW: 0.0000 qX: 0.0000 qY: 0.0000 qZ: 0.0000		CALIBRATION: Sys=0 Gyro=0 Accel=0 Mag=0
-X: 0.00 Y: 0.00 Z: 0.00		qW: 0.0000 qX: 0.0000 qY: 0.0000 qZ: 0.0000		CALIBRATION: Sys=0 Gyro=0 Accel=0 Mag=0
+X: 0.00 Y: 0.00 Z: 0.00		qW: 0.0000 qX: 0.0000 qY: 0.0000 qZ: 0.0000		L: Sys=0 Gyro=0 Accel=0 Mag=0
 X: 0.00 Y: 0.00 Z: 0.00		qW: 0.0000 qX: 0.0000 qY: 0.0000 qZ: 0.0000		CALIBRATION: Sys=0 Gyro=0 Accel=0 Mag=0
 X: 0.00 Y: 0.00 Z: 0.00		qW: 0.0000 qX: 0.0000 qY: 0.0000 qZ: 0.0000		CALIBRATION: Sys=0 Gyro=3 Accel=0 Mag=0
 X: 0.00 Y: -0.02 Z: 0.16	qW: 0.9996 qX: 0.0072 qY: -0.0254 qZ: 0.0000		CALIBRATION: Sys=0 Gyro=3 Accel=0 Mag=0

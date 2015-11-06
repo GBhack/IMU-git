@@ -63,7 +63,7 @@ void loop(void)
     {
       CALIBRATED = true;
       START = millis();
-      digitalWrite(13, HIGH); j
+      digitalWrite(13, HIGH); 
     }
   }
   else if(millis()-START < 5000)
