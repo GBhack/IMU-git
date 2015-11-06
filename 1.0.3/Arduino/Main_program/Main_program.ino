@@ -18,12 +18,12 @@ MPL3115A2 _pressure; //Pressure sensor
 i2cEEPROM _eeprom;  //The memory as a block
 
 //Predifined constants :
-#define __MISC_LED 13;
-#define __CALIB_LED 12;
-#define __WP_LED 11;
-#define __REC_LED 10;
-#define __PUSHBUTTON 4;
-#define __SWITCH 4;
+#define __MISC_LED 13
+#define __CALIB_LED 12
+#define __WP_LED 11
+#define __REC_LED 10
+#define __PUSHBUTTON 4
+#define __SWITCH 6
 
 void setup(void)
 {
