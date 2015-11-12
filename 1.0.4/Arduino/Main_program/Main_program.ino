@@ -25,7 +25,7 @@ i2cEEPROM _eeprom;  //The memory as a block
 #define __PUSHBUTTON 4
 #define __SWITCH 6
 
-#define __I2C_DELAY 5
+#define __I2C_DELAY 1
 
 void setup(void)
 {
@@ -93,6 +93,7 @@ void setup(void)
   unsigned long READING_ID = 0;
   bool WAITING_FOR_RESPONSE = true;
   unsigned long WAITING_FOR_RESPONSE_TIME = 0;
+  byte currentReadValue;
 
   unsigned long REC_LED_timetrack = 0; //For blinking the rec led
   int REC_LED_state = HIGH;
@@ -128,12 +129,13 @@ void setup(void)
           {
             WAIT_FOR_RECORDING = false;
             RECORDING = false;
-            ID=1;
+
             digitalWrite(__REC_LED,LOW);
           }
           else //Else, we wait for recording
           {
             WAIT_FOR_RECORDING = true;
+            ID=1;
             digitalWrite(__REC_LED,HIGH);
           }
           delay(400);
@@ -144,50 +146,50 @@ void setup(void)
       {
         DELTA_TIME = (unsigned int)((unsigned long)millis() - TIMESTAMP);
         TIMESTAMP = (unsigned long)millis();
-
-        imu::Vector<3> accel = _IMU.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+ 
+        imu::Vector<3> accel = _IMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
         imu::Quaternion quat = _IMU.getQuat();
         sensors_event_t event; 
         _Raccel.getEvent(&event);
 
         ID_ADDRESS = ID*25;
 
-        _eeprom.writeByte(ID_ADDRESS, ID/256); delay(__I2C_DELAY);        //ID 1/2
-        _eeprom.writeByte(ID_ADDRESS+1, ID%256); delay(__I2C_DELAY);      //ID 2/2
-        _eeprom.writeByte(ID_ADDRESS+2, DELTA_TIME); delay(__I2C_DELAY);  //deltaTime
+        _eeprom.writeByte(ID_ADDRESS, ID/256);        //ID 1/2
+        _eeprom.writeByte(ID_ADDRESS+1, ID%256);      //ID 2/2
+        _eeprom.writeByte(ID_ADDRESS+2, DELTA_TIME);  //deltaTime
         floatAsBytes.floatValue = accel.x();
-        _eeprom.writeByte(ID_ADDRESS+3, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+4, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+3, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+4, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = accel.y();
-        _eeprom.writeByte(ID_ADDRESS+5, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+6, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+5, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+6, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = accel.z();
-        _eeprom.writeByte(ID_ADDRESS+7, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+8, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+7, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+8, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.x;
-        _eeprom.writeByte(ID_ADDRESS+9, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+10, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+9, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+10, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.y;
-        _eeprom.writeByte(ID_ADDRESS+11, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+12, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+11, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+12, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.z;
-        _eeprom.writeByte(ID_ADDRESS+13, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+14, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+13, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+14, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = quat.w();
-        _eeprom.writeByte(ID_ADDRESS+15, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+16, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+15, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+16, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = quat.x();
-        _eeprom.writeByte(ID_ADDRESS+17, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+18, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+17, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+18, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = quat.y();
-        _eeprom.writeByte(ID_ADDRESS+19, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+20, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+19, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+20, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = quat.z();
-        _eeprom.writeByte(ID_ADDRESS+21, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+22, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+21, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+22, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = _pressure.readPressure();
-        _eeprom.writeByte(ID_ADDRESS+23, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(ID_ADDRESS+24, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(ID_ADDRESS+23, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+24, floatAsBytes.byteValue[3]);
 
         ID++;
       }
@@ -196,50 +198,50 @@ void setup(void)
         //Blink the REC LED
         if (millis() - REC_LED_timetrack >= 600) {REC_LED_timetrack = millis();if (REC_LED_state == LOW) {REC_LED_state = HIGH;} else {REC_LED_state = LOW;}digitalWrite(__REC_LED, REC_LED_state);}
 
-        imu::Vector<3> accel = _IMU.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+        imu::Vector<3> accel = _IMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
         imu::Quaternion quat = _IMU.getQuat();
         sensors_event_t event; 
         _Raccel.getEvent(&event);
 
-        _eeprom.writeByte(0, 0); delay(__I2C_DELAY);        //ID 1/2
-        _eeprom.writeByte(1, 0); delay(__I2C_DELAY);        //ID 2/2
-        _eeprom.writeByte(2, 0); delay(__I2C_DELAY);        //deltaTime
+        _eeprom.writeByte(0, 0);        //ID 1/2
+        _eeprom.writeByte(1, 0);        //ID 2/2
+        _eeprom.writeByte(2, 0);        //deltaTime
         floatAsBytes.floatValue = accel.x();
-        _eeprom.writeByte(3, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(4, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(3, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(4, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = accel.y();
-        _eeprom.writeByte(5, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(6, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(5, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(6, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = accel.z();
-        _eeprom.writeByte(7, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(8, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(7, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(8, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.x;
-        _eeprom.writeByte(9, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(10, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(9, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(10, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.y;
-        _eeprom.writeByte(11, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(12, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(11, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(12, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.z;
-        _eeprom.writeByte(13, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(14, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(13, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(14, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = quat.w();
-        _eeprom.writeByte(15, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(16, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(15, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(16, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = quat.x();
-        _eeprom.writeByte(17, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(18, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(17, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(18, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = quat.y();
-        _eeprom.writeByte(19, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(20, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(19, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(20, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = quat.z();
-        _eeprom.writeByte(21, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(22, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(21, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(22, floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = _pressure.readPressure();
-        _eeprom.writeByte(23, floatAsBytes.byteValue[2]); delay(__I2C_DELAY);
-        _eeprom.writeByte(24, floatAsBytes.byteValue[3]); delay(__I2C_DELAY);
+        _eeprom.writeByte(23, floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(24, floatAsBytes.byteValue[3]);
 
         //If we record a strong vertical acceleration, we start reccording:
-        if(accel.x() >= 8.0)
+        if(accel.x() >= 16.0)
         {
           ID = 1;
           RECORDING = true;
@@ -290,8 +292,9 @@ void setup(void)
     {
       for(i=0;i<=24;i++)
       {
-        Serial.write(_eeprom.readByte(READING_ID*25+(unsigned long)i));
-        Serial.write(_eeprom.readByte(READING_ID*25+(unsigned long)i)); delay(__I2C_DELAY);
+        currentReadValue = _eeprom.readByte(READING_ID*25+(unsigned long)i);
+        Serial.write(currentReadValue);
+        Serial.write(currentReadValue);
         WAITING_FOR_RESPONSE = true;
         WAITING_FOR_RESPONSE_TIME = millis();
         while(WAITING_FOR_RESPONSE)
@@ -300,7 +303,7 @@ void setup(void)
           {
               if (Serial.read() == 111)
               {
-                  Serial.write(_eeprom.readByte(READING_ID*25+(unsigned long)i)); delay(__I2C_DELAY);
+                  Serial.write(currentReadValue);
                   WAITING_FOR_RESPONSE = false;
               }
               else if(Serial.read() == 100)
