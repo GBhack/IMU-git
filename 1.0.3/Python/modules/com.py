@@ -44,7 +44,7 @@ def chooseSerialPort():
             serialPort = general.menu('Please enter the number of the one corresponding to the IMU device :',result)
             serialPort = result[serialPort-1]
             print('Sending identification request on {}'.format(serialPort))
-            serialSocket = serial.Serial(port=serialPort, baudrate=9600, timeout=1) #Open a connection on this port
+            serialSocket = serial.Serial(port=serialPort, baudrate=19200, timeout=1) #Open a connection on this port
             serialSocket.write(chr(123))  #Send identification code on this port
             
             #Waiting for an appropriate response from the device :
@@ -107,7 +107,7 @@ def receiveAByte(serialSocket, timeout=2):
     
 def receiveABlock(serialSocket):
     result = []
-    for i in range(0, 27):
+    for i in range(0, 25):
         received = receiveAByte(serialSocket,2)
         if received == 256 : received = "###"
         result.append(str(received))
@@ -141,7 +141,7 @@ def downloadOverSerial():
         rawData = []
         general.update_progress(0)
         #Download all the blocks 1 by 1 :
-        for i in range(0, numberOfBlocks):
+        for i in range(0, numberOfBlocks+1):
             rawData.append(receiveABlock(serialSocket))
             general.update_progress(float(float(i)/float(numberOfBlocks)))
         general.update_progress(1)

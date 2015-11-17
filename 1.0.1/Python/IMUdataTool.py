@@ -9,8 +9,8 @@ import modules.com
 import modules.fileManagement
 import modules.dataProcessing
 
-__author__ = "Guillaume Biton with Michael Liuzzolino and Gregory Largange at the University of Arizona (Dr. ENikov's labe, AME)"
-__credits__ = ["Guillaume Biton", "Michael Liuzzolino","Gregory Largange"]
+__author__ = "Guillaume Biton with Michael Liuzzolino at the University of Arizona (Dr. ENikov's labe, AME)"
+__credits__ = ["Guillaume Biton", "Michael Liuzzolino"]
 __license__ = "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International - http://creativecommons.org/licenses/by-nc-sa/4.0/"
 __version__ = "1.0.1"
 __email__ = "contact@gbweb.fr"
