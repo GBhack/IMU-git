@@ -70,8 +70,8 @@ def receiveAByte(serialSocket, timeout=2):
 
     receivedData = 0;
     requestTime = time.time()
-    waiting1 = True; waiting2 = True
-    incoming1 = 0;incoming2 = 0;incoming3 = 0
+    waiting1 = True
+    incoming1 = 0;incoming2 = 0
     while waiting1 :
         #We wait to have received 2 bytes
         if serialSocket.inWaiting()>1:
@@ -81,22 +81,8 @@ def receiveAByte(serialSocket, timeout=2):
                 serialSocket.write(chr(100)) # Well received !
                 result = incoming1
             else : #Else, we ask for a third repetition
-                serialSocket.write(chr(111)) # Ask for a third !
-                requestTime2 = time.time()
-                while waiting2:
-                    if serialSocket.inWaiting()>0:
-                        incoming3=ord(serialSocket.read(1))
-                        if incoming3 == incoming1:
-                            result = incoming1
-                        elif incoming3 == incoming2:
-                            result = incoming2
-                        else:
-                            print('Transmission error')
-                            result = 256 #No well received byte can be at 256
-                    elif time.time() - requestTime2 > timeout:
-                        result = 256 #No well received byte can be at 256
-                        print('Connexion timeout')
-                    waiting2 = False
+                print('Transmission error')
+                result = 256 + incoming1 #No well received byte can be at 256
             waiting1 = False
         elif time.time() - requestTime > timeout:
             waiting1 = False
@@ -140,7 +126,7 @@ def downloadOverSerial():
         rawData = []
         general.update_progress(0)
         #Download all the blocks 1 by 1 :
-        for i in range(0, numberOfBlocks):
+        for i in range(0, numberOfBlocks-2):
             rawData.append(receiveABlock(serialSocket))
             general.update_progress(float(float(i)/float(numberOfBlocks)))
         general.update_progress(1)

@@ -94,6 +94,8 @@ void setup(void)
 
   unsigned long REC_LED_timetrack = 0; //For blinking the rec led
   int REC_LED_state = HIGH;
+
+
   
   while(1)
   {
@@ -151,65 +153,64 @@ void setup(void)
         if(ID_ADDRESS >= 127950)
         {RECORDING = false;}
         _eeprom.writeByte(ID_ADDRESS, ID/256);        //ID 1/2
-        Serial.write(ID/256);
+        //Serial.write(ID/256);
         _eeprom.writeByte(ID_ADDRESS+1, ID%256);      //ID 2/2
-        Serial.write(ID%256);
+        //Serial.write(ID%256);
         floatAsBytes.floatValue = accel.x();
         _eeprom.writeByte(ID_ADDRESS+2, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+3, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = accel.y();
         _eeprom.writeByte(ID_ADDRESS+4, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+5, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = accel.z();
         _eeprom.writeByte(ID_ADDRESS+6, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+7, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.x;
         _eeprom.writeByte(ID_ADDRESS+8, floatAsBytes.byteValue[2]);
-        Serial.write( floatAsBytes.byteValue[2]);
+        //Serial.write( floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+9, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.y;
         _eeprom.writeByte(ID_ADDRESS+10, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+11, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.z;
         _eeprom.writeByte(ID_ADDRESS+12, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+13, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = euler.x();
         _eeprom.writeByte(ID_ADDRESS+14, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+15, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = euler.y();
         _eeprom.writeByte(ID_ADDRESS+16, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+17, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = euler.z();
         _eeprom.writeByte(ID_ADDRESS+18, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+19, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = _pressure.readPressure();
         _eeprom.writeByte(ID_ADDRESS+20, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+21, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         
-        Serial.write(112);
-        Serial.write(113);
-        
+        //Serial.write(112);
+        //Serial.write(113);
+
         ID++;
-        delay(12);
       }
       else if(WAIT_FOR_RECORDING == true)
       {
@@ -224,65 +225,64 @@ void setup(void)
         ID_ADDRESS = ID*22;
 
         _eeprom.writeByte(ID_ADDRESS, 0);        //ID 1/2
-        Serial.write(0);
+        //Serial.write(0);
         _eeprom.writeByte(ID_ADDRESS+1, ID%256);      //ID 2/2
-        Serial.write(ID%256);
+        //Serial.write(ID%256);
         floatAsBytes.floatValue = accel.x();
         _eeprom.writeByte(ID_ADDRESS+2, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+3, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = accel.y();
         _eeprom.writeByte(ID_ADDRESS+4, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+5, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = accel.z();
         _eeprom.writeByte(ID_ADDRESS+6, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+7, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.x;
         _eeprom.writeByte(ID_ADDRESS+8, floatAsBytes.byteValue[2]);
-        Serial.write( floatAsBytes.byteValue[2]);
+        //Serial.write( floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+9, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.y;
         _eeprom.writeByte(ID_ADDRESS+10, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+11, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = event.acceleration.z;
         _eeprom.writeByte(ID_ADDRESS+12, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+13, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = euler.x();
         _eeprom.writeByte(ID_ADDRESS+14, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+15, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = euler.y();
         _eeprom.writeByte(ID_ADDRESS+16, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+17, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = euler.z();
         _eeprom.writeByte(ID_ADDRESS+18, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+19, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         floatAsBytes.floatValue = _pressure.readPressure();
         _eeprom.writeByte(ID_ADDRESS+20, floatAsBytes.byteValue[2]);
-        Serial.write(floatAsBytes.byteValue[2]);
+        //Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+21, floatAsBytes.byteValue[3]);
-        Serial.write(floatAsBytes.byteValue[3]);
+        //Serial.write(floatAsBytes.byteValue[3]);
         
-        Serial.write(112);
-        Serial.write(113);
-        
+        //Serial.write(112);
+        //Serial.write(113);
+
         ID++;
-        delay(12);
         
         if(ID==20){ID=0;}
         //If we record a strong vertical acceleration, we start reccording:

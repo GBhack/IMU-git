@@ -68,7 +68,7 @@ void setup(void)
   //Wait for the IMU to be calibrated :
   uint8_t gyroCal, accelCal;
   _IMU.getCalibration(NULL, &gyroCal, &accelCal, NULL);
-  while(gyroCal != 3 || accelCal !=3){delay(250);_IMU.getCalibration(NULL, &gyroCal, &accelCal,NULL);}
+  //while(gyroCal != 3 || accelCal !=3){delay(250);_IMU.getCalibration(NULL, &gyroCal, &accelCal,NULL);}
   digitalWrite(__CALIB_LED, HIGH); //Light up the LED to show calibration status
 
 /*  #######################################
@@ -143,13 +143,12 @@ void setup(void)
       if(RECORDING == true)
       { 
         imu::Vector<3> accel = _IMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
-        imu::Vector<3> euler = _IMU.getVector(Adafruit_BNO055::VECTOR_EULER);
+        imu::Quaternion quat = _IMU.getQuat();
         sensors_event_t event; 
         _Raccel.getEvent(&event);
 
-        ID_ADDRESS = ID*22;
-        if(ID_ADDRESS >= 127950)
-        {RECORDING = false;}
+        ID_ADDRESS = ID*24;
+
         _eeprom.writeByte(ID_ADDRESS, ID/256);        //ID 1/2
         Serial.write(ID/256);
         _eeprom.writeByte(ID_ADDRESS+1, ID%256);      //ID 2/2
@@ -178,31 +177,44 @@ void setup(void)
         _eeprom.writeByte(ID_ADDRESS+10, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+11, floatAsBytes.byteValue[3]);
+       
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = event.acceleration.z;
+         floatAsBytes.floatValue = event.acceleration.z;
+        Serial.println();
+        Serial.print(event.acceleration.z);
+        Serial.print(" - ");
+        Serial.print(floatAsBytes.byteValue[2]);
+        Serial.print(" - ");
+        Serial.print(floatAsBytes.byteValue[3]);
+        
         _eeprom.writeByte(ID_ADDRESS+12, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+13, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = euler.x();
+        floatAsBytes.floatValue = quat.w();
         _eeprom.writeByte(ID_ADDRESS+14, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+15, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = euler.y();
+        floatAsBytes.floatValue = quat.x();
         _eeprom.writeByte(ID_ADDRESS+16, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+17, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = euler.z();
+        floatAsBytes.floatValue = quat.y();
         _eeprom.writeByte(ID_ADDRESS+18, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+19, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = _pressure.readPressure();
+        floatAsBytes.floatValue = quat.z();
         _eeprom.writeByte(ID_ADDRESS+20, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+21, floatAsBytes.byteValue[3]);
+        Serial.write(floatAsBytes.byteValue[3]);
+        floatAsBytes.floatValue = _pressure.readPressure();
+        _eeprom.writeByte(ID_ADDRESS+22, floatAsBytes.byteValue[2]);
+        Serial.write(floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+23, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
         
         Serial.write(112);
@@ -217,11 +229,11 @@ void setup(void)
         if (millis() - REC_LED_timetrack >= 600) {REC_LED_timetrack = millis();if (REC_LED_state == LOW) {REC_LED_state = HIGH;} else {REC_LED_state = LOW;}digitalWrite(__REC_LED, REC_LED_state);}
 
         imu::Vector<3> accel = _IMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
-        imu::Vector<3> euler = _IMU.getVector(Adafruit_BNO055::VECTOR_EULER);
+        imu::Quaternion quat = _IMU.getQuat();
         sensors_event_t event; 
         _Raccel.getEvent(&event);
         
-        ID_ADDRESS = ID*22;
+        ID_ADDRESS = ID*24;
 
         _eeprom.writeByte(ID_ADDRESS, 0);        //ID 1/2
         Serial.write(0);
@@ -257,25 +269,30 @@ void setup(void)
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+13, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = euler.x();
+        floatAsBytes.floatValue = quat.w();
         _eeprom.writeByte(ID_ADDRESS+14, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+15, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = euler.y();
+        floatAsBytes.floatValue = quat.x();
         _eeprom.writeByte(ID_ADDRESS+16, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+17, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = euler.z();
+        floatAsBytes.floatValue = quat.y();
         _eeprom.writeByte(ID_ADDRESS+18, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+19, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
-        floatAsBytes.floatValue = _pressure.readPressure();
+        floatAsBytes.floatValue = quat.z();
         _eeprom.writeByte(ID_ADDRESS+20, floatAsBytes.byteValue[2]);
         Serial.write(floatAsBytes.byteValue[2]);
         _eeprom.writeByte(ID_ADDRESS+21, floatAsBytes.byteValue[3]);
+        Serial.write(floatAsBytes.byteValue[3]);
+        floatAsBytes.floatValue = _pressure.readPressure();
+        _eeprom.writeByte(ID_ADDRESS+22, floatAsBytes.byteValue[2]);
+        Serial.write(floatAsBytes.byteValue[2]);
+        _eeprom.writeByte(ID_ADDRESS+23, floatAsBytes.byteValue[3]);
         Serial.write(floatAsBytes.byteValue[3]);
         
         Serial.write(112);
@@ -333,9 +350,9 @@ void setup(void)
     }
     else if(READING == true)
     {
-      for(i=0;i<=21;i++)
+      for(i=0;i<=23;i++)
       {
-        currentReadValue = _eeprom.readByte(READING_ID*22+(unsigned long)i);
+        currentReadValue = _eeprom.readByte(READING_ID*24+(unsigned long)i);
         Serial.write(currentReadValue);
         Serial.write(currentReadValue);
         WAITING_FOR_RESPONSE = true;
